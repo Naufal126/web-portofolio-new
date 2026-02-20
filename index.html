@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Portfolio | Ananda'Naufal Rizkyansyah</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{color:white;overflow:hidden;perspective:1000px;touch-action: pan-x pan-y;background:#000;}
+.video-bg{position:fixed;top:50%;left:50%;width:auto;height:auto;min-width:100%;min-height:100%;transform: translate(-50%, -50%);object-fit:cover;z-index:-3;}
+.particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.95));z-index:-2;}
+#loader{position:fixed;width:100%;height:100vh;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity 1s ease;}
+.loading-text{font-size:18px;margin-bottom:20px;letter-spacing:2px;opacity:0.8;}
+.loading-bar{width:260px;height:4px;background:#222;border-radius:10px;overflow:hidden;}
+.loading-progress{height:100%;width:0%;background:linear-gradient(90deg,#ff2e63,#ff6f91);box-shadow:0 0 15px #ff2e63;transition:width 0.2s;}
+.percent{margin-top:15px;font-size:14px;opacity:0.6;}
+#enterBtn{margin-top:30px;padding:1.5vw 4vw;font-size:1.5vw;border:none;border-radius:30px;background:linear-gradient(90deg,#ff2e63,#ff6f91);color:white;cursor:pointer;display:none;transition:0.3s;box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;animation:pulseGlow 2s infinite;z-index:10;}
+#enterBtn:hover{transform:translateY(-6px) scale(1.08);box-shadow:0 0 20px #ff2e63,0 0 40px #ff6f91,0 0 60px #ff2e63;}
+@keyframes pulseGlow{0%{transform:scale(1);box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;}50%{transform:scale(1.05);box-shadow:0 0 20px #ff2e63,0 0 40px #ff6f91,0 0 60px #ff2e63;}100%{transform:scale(1);box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;}}
+.container{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;opacity:0;transition:opacity 1.5s ease;padding-top:8vh;position:relative;z-index:1;}
+h1{font-size:6vw;font-weight:800;margin-bottom:1.5vw;background: linear-gradient(90deg,#ff2e63,#ff6f91);-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;}
+h1::after{content:"";position:absolute;width:120%;height:120%;background:radial-gradient(circle,rgba(255,46,99,0.4),transparent);top:-10%;left:-10%;z-index:-1;filter:blur(40px);}
+.thumbnail, .card {opacity: 0; transform: translateY(50px); transition: transform 0.8s ease-out, opacity 0.8s ease-out;}
+.thumbnail.animate, .card.animate {transform: translateY(0); opacity: 1;}
+.thumbnail{width:20vw;max-width:170px;height:20vw;max-height:170px;border-radius:30px;margin-bottom:5vw;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.7);transition:transform 0.4s ease;transform-style:preserve-3d;}
+.thumbnail img{width:100%;height:100%;object-fit:cover;}
+.thumbnail:hover{transform:rotateY(18deg) rotateX(12deg) scale(1.08);}
+@keyframes float3D{0%{ transform:translateY(0px) rotateY(0deg); }50%{ transform:translateY(-18px) rotateY(8deg); }100%{ transform:translateY(0px) rotateY(0deg); }}
+.thumbnail.animate{animation:float3D 5s ease-in-out infinite;}
+.card{background:rgba(0,0,0,0.5);backdrop-filter:blur(25px);padding:3vw;width:90%;max-width:520px;border-radius:30px;box-shadow:0 15px 50px rgba(0,0,0,0.6);transition:transform 0.4s ease;margin-bottom:2vw;}
+.card:hover{transform:translateY(-12px) scale(1.04);}
+.card p{font-size:1vw;opacity:0.9;line-height:1.7;text-align:left;}
+#showFeedback{margin:2vw 0;padding:1.5vw 4vw;font-size:1.5vw;border:none;border-radius:30px;background:linear-gradient(90deg,#ff2e63,#ff6f91);color:white;cursor:pointer;transition:0.3s;box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;animation:pulseGlow 2s infinite;}
+#showFeedback:hover{transform:translateY(-6px) scale(1.08);box-shadow:0 0 20px #ff2e63,0 0 40px #ff6f91,0 0 60px #ff2e63;}
+#feedbackOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background: rgba(0,0,0,0.85);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:20;padding:3vw;opacity:0;pointer-events:none;transition: opacity 0.6s ease-in-out;}
+#feedbackOverlay.active{opacity:1;pointer-events:auto;}
+#feedbackOverlay h2{font-size:4vw;margin-bottom:2vw;background: linear-gradient(90deg,#ff2e63,#ff6f91);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulseGlow 2s infinite;}
+#feedbackOverlay textarea{width:90%;max-width:600px;height:220px;padding:2vw;border-radius:15px;border:none;resize:none;font-size:1.2vw;background: rgba(255,255,255,0.05);color:white;backdrop-filter: blur(10px);margin-bottom:2vw;}
+#feedbackOverlay .glowBtn{padding:2vw 5vw;font-size:1.5vw;border:none;border-radius:30px;background:linear-gradient(90deg,#ff2e63,#ff6f91);color:white;cursor:pointer;transition:0.3s;box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;margin:1.5vw;}
+.footer{position:fixed;bottom:0;left:0;width:100%;text-align:center;padding-bottom:1.5vw;z-index:1;display:flex;flex-direction:column;align-items:center;gap:0.5vw;}
+.footer .contact a{display:inline-flex;align-items:center;justify-content:center;margin:0.3vw;padding:0.8vw 2vw;font-size:0.9vw;border-radius:30px;text-decoration:none;color:white;background:linear-gradient(90deg,#ff2e63,#ff6f91);transition:0.3s;gap:6px;}
+.footer .contact a:hover{transform:translateY(-6px) scale(1.1);box-shadow:0 0 20px #ff2e63;}
+.footer .copyright{font-size:0.9vw;opacity:0.6;margin-bottom:0.5vw;}
+.container.blur{filter: blur(6px) brightness(0.6);transition: filter 0.6s ease-in-out;}
+@media (max-width:768px){h1{ font-size:10vw; } .thumbnail{ width:30vw; height:30vw; } .card p{ font-size:3vw; } #enterBtn{ font-size:4vw; padding:2vw 4vw; } #showFeedback{ font-size:4vw; padding:2vw 4vw; } #feedbackOverlay h2{ font-size:8vw; } #feedbackOverlay textarea{ width:90%; height:180px; font-size:3vw; padding:2vw; } .glowBtn{ font-size:3vw; padding:2vw 4vw; } .footer .copyright{ font-size:3vw; } .footer .contact a{ font-size:3vw; padding:2vw 4vw; } }
+</style>
+</head>
+<body>
+
+<canvas class="particle-canvas" id="particleCanvas"></canvas>
+<video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo" poster="https://files.catbox.moe/a8iyz5.jpg">
+  <source src="https://files.catbox.moe/x339z2.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<audio id="bgMusic" loop preload="auto">
+  <source src="https://files.catbox.moe/h1t9z1.mp3" type="audio/mpeg">
+</audio>
+
+<div id="loader">
+  <div class="loading-text">LOADING PORTOFOLIO</div>
+  <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
+  <div class="percent" id="percent">0%</div>
+  <button id="enterBtn">Klik disini untuk melanjutkannya</button>
+</div>
+
+<div class="container" id="mainContent">
+  <h1>PORTOFOLIO</h1>
+  <div class="thumbnail" id="thumb">
+    <img src="https://files.catbox.moe/kd5899.jpg">
+  </div>
+  <div class="card">
+    <p>
+      Perkenalkan, nama saya Ananda'Naufal Rizkyansyah biasa dipanggil Naufa, usia saat ini 18 tahun, saya lahir di Yogyakarta pada tanggal 6 November 2007. Jurusan saya Akutansi tetapi saya suka² coding tida jelas. Saya juga sudah mempunyai cewek yaitu Inka Priscilla Clara Prizyangkha yang paling ku sayangi. Dah begitu perkenalan nya makasih.
+    </p>
+  </div>
+
+  <button id="showFeedback">Saran dan Kritik</button>
+
+  <div class="footer">
+    <div class="contact">
+      <a href="https://www.tiktok.com/@anandanaufal29" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/tiktok.png" alt="TikTok"/> TikTok</a>
+      <a href="https://instagram.com/allow_nfl" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"/> Instagram</a>
+      <a href="https://wa.me/8562057060337" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="WhatsApp"/> WhatsApp</a>
+      <a href="https://whatsapp.com/channel/0029Vb6O76GBVJl8sduINi3C" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="Channel WhatsApp"/> Channel WhatsApp</a>
+    </div>
+    <div class="copyright">&copy; Naufal</div>
+  </div>
+</div>
+
+<div id="feedbackOverlay">
+  <h2>Saran & Kritik</h2>
+  <textarea id="feedbackInput" rows="5" placeholder="Tulis saran & kritikmu di sini..."></textarea>
+  <button id="sendFeedback" class="glowBtn">Kirim ke WhatsApp</button>
+  <button id="closeFeedback" class="glowBtn">Tutup</button>
+</div>
+
+<script>
+// VIDEO & MUSIC
+const video = document.getElementById("bgVideo"); video.play().catch(()=>{});
+const music = document.getElementById("bgMusic"); music.volume=1;
+
+// LOADER
+let progress = 0; let percentText = document.getElementById("percent"); let progressBar = document.getElementById("progress"); let enterBtn = document.getElementById("enterBtn");
+let interval = setInterval(() => { progress += Math.random() * 2.2; if(progress >= 100) progress = 100; progressBar.style.width = progress + "%"; percentText.innerText = Math.floor(progress) + "%"; if(progress === 100){ clearInterval(interval); setTimeout(()=>{ enterBtn.style.display = "inline-block"; },700); }},110);
+
+enterBtn.addEventListener("click",()=>{
+  document.getElementById("loader").style.opacity="0";
+  setTimeout(()=>{
+    document.getElementById("loader").style.display="none";
+    document.getElementById("mainContent").style.opacity="1";
+    document.getElementById("thumb").classList.add("animate");
+    document.querySelector(".card").classList.add("animate");
+    music.play().catch(()=>{document.addEventListener("click",()=>{music.play();});});
+  },500);
+});
+
+document.addEventListener("visibilitychange", function() { if (document.hidden) music.pause(); else music.play().catch(()=>{}); });
+window.addEventListener("blur", ()=>{music.pause();});
+window.addEventListener("focus", ()=>{music.play().catch(()=>{});});
+
+// FEEDBACK
+const showFeedback = document.getElementById("showFeedback");
+const feedbackOverlay = document.getElementById("feedbackOverlay");
+const closeFeedback = document.getElementById("closeFeedback");
+const mainContent = document.getElementById("mainContent");
+showFeedback.addEventListener("click", ()=>{feedbackOverlay.classList.add("active"); mainContent.classList.add("blur");});
+closeFeedback.addEventListener("click", ()=>{feedbackOverlay.classList.remove("active"); mainContent.classList.remove("blur");});
+document.getElementById("sendFeedback").addEventListener("click", function(){
+  let msg = document.getElementById("feedbackInput").value.trim();
+  if(msg===""){alert("Tolong tulis saran & kritik terlebih dahulu!");return;}
+  let waNumber = "8562057060337"; 
+  window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+});
+
+// PARTICLE EFFECT
+const canvas = document.getElementById("particleCanvas");
+const ctx = canvas.getContext("2d");
+let particlesArray;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width = window.innerWidth;canvas.height = window.innerHeight;initParticles();});
+
+class Particle{constructor(){this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.size=Math.random()*3+1; this.speedX=Math.random()*1-0.5; this.speedY=Math.random()*1-0.5; this.color='rgba(255,255,255,'+Math.random()+')';}update(){this.x += this.speedX; this.y += this.speedY; if(this.x>canvas.width) this.x=0; if(this.x<0) this.x=canvas.width; if(this.y>canvas.height) this.y=0; if(this.y<0) this.y=canvas.height;}draw(){ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill();}}
+function initParticles(){particlesArray=[];for(let i=0;i<120;i++){particlesArray.push(new Particle());}}
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p=>{p.update(); p.draw();}); requestAnimationFrame(animateParticles);}
+initParticles(); animateParticles();
+</script>
+</body>
+</html>
