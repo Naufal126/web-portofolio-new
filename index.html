@@ -1,182 +1,502 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Portfolio | Ananda'Naufal Rizkyansyah</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{color:white;overflow:hidden;perspective:1000px;touch-action: pan-x pan-y;background:#000;}
-.video-bg{position:fixed;top:50%;left:50%;width:auto;height:auto;min-width:100%;min-height:100%;transform: translate(-50%, -50%);object-fit:cover;z-index:-3;}
-.particle-canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;pointer-events:none;}
-.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background: linear-gradient(to bottom, rgba(0,0,0,0.75), rgba(0,0,0,0.95));z-index:-2;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Portofolio Ananda Naufal | Professional Accountant & Financial Analyst</title>
+    <meta name="description" content="Portofolio profesional Naufal, seorang ahli di bidang Akuntansi, Analisis Keuangan, dan Perpajakan. Temukan info skill dan kontak di sini.">
+    <meta name="keywords" content="Portofolio Naufal, Naufal Accountant, Financial Analyst Indonesia">
+    <meta name="author" content="Ananda Naufal">
 
-/* LOADER SECTION */
-#loader{position:fixed;width:100%;height:100vh;background:#000;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;transition:opacity 1s ease;}
-.loading-text{font-size:18px;margin-bottom:20px;letter-spacing:2px;opacity:0.8;}
-.loading-bar{width:260px;height:4px;background:#222;border-radius:10px;overflow:hidden;}
-.loading-progress{height:100%;width:0%;background:linear-gradient(90deg,#ff2e63,#ff6f91);box-shadow:0 0 15px #ff2e63;transition:width 0.2s;}
-.percent{margin-top:15px;font-size:14px;opacity:0.6;}
-#enterBtn{margin-top:30px;padding:1.5vw 4vw;font-size:1.5vw;border:none;border-radius:30px;background:linear-gradient(90deg,#ff2e63,#ff6f91);color:white;cursor:pointer;display:none;transition:0.3s;box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;animation:pulseGlow 2s infinite;z-index:10;}
-#enterBtn:hover{transform:translateY(-6px) scale(1.08);box-shadow:0 0 20px #ff2e63,0 0 40px #ff6f91,0 0 60px #ff2e63;}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-@keyframes pulseGlow{0%{transform:scale(1);box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;}50%{transform:scale(1.05);box-shadow:0 0 20px #ff2e63,0 0 40px #ff6f91,0 0 60px #ff2e63;}100%{transform:scale(1);box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;}}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* MAIN CONTAINER */
-.container{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;opacity:0;transition:opacity 1.5s ease;padding-top:8vh;position:relative;z-index:1;}
-h1{font-size:6vw;font-weight:800;margin-bottom:1.5vw;background: linear-gradient(90deg,#ff2e63,#ff6f91);-webkit-background-clip:text;-webkit-text-fill-color:transparent;position:relative;}
-h1::after{content:"";position:absolute;width:120%;height:120%;background:radial-gradient(circle,rgba(255,46,99,0.4),transparent);top:-10%;left:-10%;z-index:-1;filter:blur(40px);}
+        body {
+            background: #020617;
+            color: white;
+            overflow-x: hidden;
+        }
 
-.thumbnail, .card {opacity: 0; transform: translateY(50px); transition: transform 0.8s ease-out, opacity 0.8s ease-out;}
-.thumbnail.animate, .card.animate {transform: translateY(0); opacity: 1;}
+        body::before {
+            content: "";
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: #00ffff;
+            filter: blur(180px);
+            opacity: 0.25;
+            top: -200px;
+            left: -100px;
+            z-index: -1;
+        }
 
-.thumbnail{width:20vw;max-width:170px;height:20vw;max-height:170px;border-radius:30px;margin-bottom:5vw;overflow:hidden;box-shadow:0 25px 50px rgba(0,0,0,0.7);transition:transform 0.4s ease;transform-style:preserve-3d;}
-.thumbnail img{width:100%;height:100%;object-fit:cover;}
-.thumbnail:hover{transform:rotateY(18deg) rotateX(12deg) scale(1.08);}
+        canvas {
+            position: fixed;
+            z-index: -2;
+        }
 
-@keyframes float3D{0%{ transform:translateY(0px) rotateY(0deg); }50%{ transform:translateY(-18px) rotateY(8deg); }100%{ transform:translateY(0px) rotateY(0deg); }}
-.thumbnail.animate{animation:float3D 5s ease-in-out infinite;}
+        /* INTRO & LOADER */
+        #intro {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            background: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+            z-index: 9999;
+            transition: 1s;
+        }
 
-.card{background:rgba(0,0,0,0.5);backdrop-filter:blur(25px);padding:3vw;width:90%;max-width:520px;border-radius:30px;box-shadow:0 15px 50px rgba(0,0,0,0.6);transition:transform 0.4s ease;margin-bottom:2vw;}
-.card:hover{transform:translateY(-12px) scale(1.04);}
-.card p{font-size:1vw;opacity:0.9;line-height:1.7;text-align:left;}
+        #intro h1 {
+            font-size: 70px;
+            color: #00ffff;
+            text-shadow: 0 0 40px cyan;
+        }
 
-#showFeedback{margin:2vw 0;padding:1.5vw 4vw;font-size:1.5vw;border:none;border-radius:30px;background:linear-gradient(90deg,#ff2e63,#ff6f91);color:white;cursor:pointer;transition:0.3s;box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;animation:pulseGlow 2s infinite;}
-#showFeedback:hover{transform:translateY(-6px) scale(1.08);box-shadow:0 0 20px #ff2e63,0 0 40px #ff6f91,0 0 60px #ff2e63;}
+        #intro p {
+            margin-top: 20px;
+            letter-spacing: 5px;
+        }
 
-/* FOOTER SECTION - UPDATED */
-.footer{position:fixed;bottom:40px;left:0;width:100%;text-align:center;z-index:1;display:flex;flex-direction:column;align-items:center;gap:12px;}
-.footer .contact{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
-.footer .contact a{display:inline-flex;align-items:center;justify-content:center;padding:0.8vw 2vw;font-size:0.9vw;border-radius:30px;text-decoration:none;color:white;background:linear-gradient(90deg,#ff2e63,#ff6f91);transition:0.3s;gap:6px;}
-.footer .contact a:hover{transform:translateY(-6px) scale(1.1);box-shadow:0 0 20px #ff2e63;}
-.footer .copyright{font-size:0.9vw;opacity:0.6;margin-top:5px;}
+        .next {
+            margin-top: 40px;
+            padding: 15px 45px;
+            border: none;
+            border-radius: 50px;
+            background: #00ffff;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+        }
 
-/* FEEDBACK OVERLAY */
-#feedbackOverlay{position:fixed;top:0;left:0;width:100%;height:100%;background: rgba(0,0,0,0.85);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:20;padding:3vw;opacity:0;pointer-events:none;transition: opacity 0.6s ease-in-out;}
-#feedbackOverlay.active{opacity:1;pointer-events:auto;}
-#feedbackOverlay h2{font-size:4vw;margin-bottom:2vw;background: linear-gradient(90deg,#ff2e63,#ff6f91);-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulseGlow 2s infinite;}
-#feedbackOverlay textarea{width:90%;max-width:600px;height:220px;padding:2vw;border-radius:15px;border:none;resize:none;font-size:1.2vw;background: rgba(255,255,255,0.05);color:white;backdrop-filter: blur(10px);margin-bottom:2vw;}
-#feedbackOverlay .glowBtn{padding:2vw 5vw;font-size:1.5vw;border:none;border-radius:30px;background:linear-gradient(90deg,#ff2e63,#ff6f91);color:white;cursor:pointer;transition:0.3s;box-shadow:0 0 10px #ff2e63,0 0 20px #ff6f91,0 0 30px #ff2e63;margin:1.5vw;}
+        /* CSS ANIMASI LOADING */
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(0, 255, 255, 0.1);
+            border-top: 5px solid #00ffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px auto;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        }
 
-.container.blur{filter: blur(6px) brightness(0.6);transition: filter 0.6s ease-in-out;}
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
 
-/* RESPONSIVE MOBILE */
-@media (max-width:768px){
-  h1{ font-size:10vw; } 
-  .thumbnail{ width:30vw; height:30vw; } 
-  .card p{ font-size:3vw; } 
-  #enterBtn{ font-size:4vw; padding:2vw 4vw; } 
-  #showFeedback{ font-size:4vw; padding:2vw 4vw; } 
-  #feedbackOverlay h2{ font-size:8vw; } 
-  #feedbackOverlay textarea{ width:90%; height:180px; font-size:3.5vw; padding:4vw; } 
-  .glowBtn{ font-size:3.5vw; padding:3vw 6vw; } 
-  .footer{ bottom:30px; }
-  .footer .contact a{ font-size:3vw; padding:2.5vw 5vw; } 
-  .footer .copyright{ font-size:3.5vw; } 
-}
-</style>
+        .loading-text {
+            color: #00ffff;
+            letter-spacing: 5px;
+            font-size: 18px;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; text-shadow: 0 0 20px cyan; }
+            50% { opacity: 0.3; text-shadow: none; }
+        }
+
+        #main {
+            display: none;
+        }
+
+        /* NAV & MENU BUKA-TUTUP */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+
+        nav h2 {
+            color: #00ffff;
+        }
+
+        .menu-icon {
+            font-size: 28px;
+            color: #00ffff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .menu-icon:hover {
+            text-shadow: 0 0 15px cyan;
+        }
+
+        /* Kotak Dropdown Menu */
+        .nav-links {
+            position: absolute;
+            top: 80px;
+            right: 8%;
+            background: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            padding: 10px 0;
+            
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: 0.4s ease;
+        }
+
+        .nav-links.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            font-size: 16px;
+            transition: 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-links a:last-child {
+            border-bottom: none;
+        }
+
+        .nav-links a:hover {
+            color: #00ffff;
+            background: rgba(0, 255, 255, 0.05);
+            letter-spacing: 2px;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .profile {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            border: 3px solid cyan;
+            object-fit: cover;
+            box-shadow: 0 0 30px cyan;
+        }
+
+        .hero h1 {
+            font-size: 60px;
+            margin-top: 25px;
+        }
+
+        .hero span {
+            color: #00ffff;
+        }
+
+        .typing {
+            font-size: 22px;
+            margin-top: 15px;
+            height: 30px; 
+        }
+
+        .btn {
+            margin-top: 30px;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 40px;
+            background: #00ffff;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* SECTION */
+        section {
+            padding: 100px 10%;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 40px;
+            margin-bottom: 50px;
+        }
+
+        /* GLASS */
+        .glass {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 35px cyan;
+        }
+
+        /* ANIMASI REVEAL SAAT DI-SCROLL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* SKILL */
+        .skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .skill h2 {
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+
+        /* CONTACT */
+        .social {
+            text-align: center;
+        }
+
+        .social a {
+            font-size: 35px;
+            margin: 20px;
+            color: white;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .social a:hover {
+            color: #00ffff;
+            transform: scale(1.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+        }
+
+        @media(max-width: 600px) {
+            .hero h1 {
+                font-size: 40px;
+            }
+            #intro h1 {
+                font-size: 45px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-<canvas class="particle-canvas" id="particleCanvas"></canvas>
-<video class="video-bg" autoplay muted loop playsinline preload="auto" id="bgVideo" poster="https://files.catbox.moe/a8iyz5.jpg">
-  <source src="https://files.catbox.moe/x339z2.mp4" type="video/mp4">
-</video>
-<div class="overlay"></div>
+    <div id="intro">
+        <div id="intro-content">
+            <h1>NAUFAL</h1>
+            <p>WELCOME TO MY PORTFOLIO</p>
+            <button class="next" onclick="start()">Selanjutnya &rarr;</button>
+        </div>
 
-<audio id="bgMusic" loop preload="auto">
-  <source src="https://files.catbox.moe/h1t9z1.mp3" type="audio/mpeg">
-</audio>
-
-<div id="loader">
-  <div class="loading-text">LOADING PORTOFOLIO</div>
-  <div class="loading-bar"><div class="loading-progress" id="progress"></div></div>
-  <div class="percent" id="percent">0%</div>
-  <button id="enterBtn">Klik disini untuk melanjutkannya</button>
-</div>
-
-<div class="container" id="mainContent">
-  <h1>PORTOFOLIO</h1>
-  <div class="thumbnail" id="thumb">
-    <img src="https://files.catbox.moe/kd5899.jpg">
-  </div>
-  <div class="card">
-    <p>
-      Perkenalkan, nama saya Ananda'Naufal Rizkyansyah biasa dipanggil Naufal, usia saat ini 18 tahun, saya lahir di Yogyakarta pada tanggal 6 November 2007. Jurusan saya Akutansi tetapi saya suka² coding tida jelas. Saya juga sudah mempunyai cewek yaitu Inka Priscilla Clara Prizyangkha yang paling ku sayangi. Dah begitu perkenalan nya makasih.
-    </p>
-  </div>
-
-  <button id="showFeedback">Saran dan Kritik</button>
-
-  <div class="footer">
-    <div class="contact">
-      <a href="https://www.tiktok.com/@anandanaufal29" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/tiktok.png" alt="TikTok"/> TikTok</a>
-      <a href="https://instagram.com/allow_nfl" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/instagram-new.png" alt="Instagram"/> Instagram</a>
-      <a href="https://wa.me/8562057060337" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="WhatsApp"/> WhatsApp</a>
-      <a href="https://whatsapp.com/channel/0029Vb6O76GBVJl8sduINi3C" target="_blank"><img src="https://img.icons8.com/ios-filled/24/ffffff/whatsapp.png" alt="Channel WhatsApp"/> Channel WhatsApp</a>
+        <div id="loader" style="display: none;">
+            <div class="spinner"></div>
+            <p class="loading-text">MEMUAT...</p>
+        </div>
     </div>
-    <div class="copyright">&copy; Naufal</div>
-  </div>
-</div>
 
-<div id="feedbackOverlay">
-  <h2>Saran & Kritik</h2>
-  <textarea id="feedbackInput" rows="5" placeholder="Tulis saran & kritikmu di sini..."></textarea>
-  <button id="sendFeedback" class="glowBtn">Kirim ke WhatsApp</button>
-  <button id="closeFeedback" class="glowBtn">Tutup</button>
-</div>
+    <div id="main">
+        <canvas id="canvas"></canvas>
 
-<script>
-// VIDEO & MUSIC
-const video = document.getElementById("bgVideo"); video.play().catch(()=>{});
-const music = document.getElementById("bgMusic"); music.volume=1;
+        <nav>
+            <h2>Portofolio</h2>
+            <div class="menu-icon" onclick="toggleMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+            
+            <div class="nav-links" id="navLinks">
+                <a href="#about" onclick="toggleMenu()">About</a>
+                <a href="#skill" onclick="toggleMenu()">Skill</a>
+                <a href="#contact" onclick="toggleMenu()">Contact</a>
+            </div>
+        </nav>
 
-// LOADER
-let progress = 0; let percentText = document.getElementById("percent"); let progressBar = document.getElementById("progress"); let enterBtn = document.getElementById("enterBtn");
-let interval = setInterval(() => { progress += Math.random() * 2.2; if(progress >= 100) progress = 100; progressBar.style.width = progress + "%"; percentText.innerText = Math.floor(progress) + "%"; if(progress === 100){ clearInterval(interval); setTimeout(()=>{ enterBtn.style.display = "inline-block"; },700); }},110);
+        <div class="hero">
+            <div>
+                <img class="profile" src="https://files.catbox.moe/i87i9x.png" alt="Foto Profil">
+                <h1>Hi, I'm <span>Naufal</span></h1>
+                <div class="typing"></div>
+                <button class="btn" onclick="location.href='#skill'">Lihat Skill</button>
+            </div>
+        </div>
 
-enterBtn.addEventListener("click",()=>{
-  document.getElementById("loader").style.opacity="0";
-  setTimeout(()=>{
-    document.getElementById("loader").style.display="none";
-    document.getElementById("mainContent").style.opacity="1";
-    document.getElementById("thumb").classList.add("animate");
-    document.querySelector(".card").classList.add("animate");
-    music.play().catch(()=>{document.addEventListener("click",()=>{music.play();});});
-  },500);
-});
+        <section id="about" class="reveal">
+            <h2 class="title">About Me</h2>
+            <div class="glass">
+                Perkenalkan saya ananda Naufal Rizkyansyah biasa dipanggil Naufal, saya lahir di Yogyakarta pada tanggal 6 November 2007, saya anak kedua dari empat bersaudara,saya lulusan SMKN 1 Yogyakarta dan mau melanjutkan ke ykpn, saya mempunyai skil-skil yang cukup,seperti mengelola jurnal,buku besar,Excel,dll yang berhubungan akutansi. saya melanjutkan di ykpn mengambil jurusan akutansi dan ingin melanjutkan S2 juga.
+            </div>
+        </section>
 
-document.addEventListener("visibilitychange", function() { if (document.hidden) music.pause(); else music.play().catch(()=>{}); });
-window.addEventListener("blur", ()=>{music.pause();});
-window.addEventListener("focus", ()=>{music.play().catch(()=>{});});
+        <section id="skill" class="reveal">
+            <h2 class="title">My Skills</h2>
+            <div class="skills">
+                <div class="glass skill">
+                    <h2>ACCOUNTING</h2>
+                    <p>Mengelola pencatatan transaksi dan laporan keuangan secara sistematis.</p>
+                </div>
+                <div class="glass skill">
+                    <h2>Financial Report</h2>
+                    <p>Membuat laporan laba rugi, neraca, perubahan modal, dan arus kas.</p>
+                </div>
+                <div class="glass skill">
+                    <h2>Financial Analysis</h2>
+                    <p>Menganalisis data keuangan untuk membantu proyeksi bisnis dan pengambilan keputusan.</p>
+                </div>
+                <div class="glass skill">
+                    <h2>Tax Management</h2>
+                    <p>Memahami dasar perhitungan, pelaporan, dan pengelolaan kewajiban pajak.</p>
+                </div>
+                <div class="glass skill">
+                    <h2>Bookkeeping</h2>
+                    <p>Mencatat setiap transaksi harian dan menyusun pembukuan secara rapi terstruktur.</p>
+                </div>
+                <div class="glass skill">
+                    <h2>Accounting Software</h2>
+                    <p>Mengoperasikan software akuntansi digital untuk efisiensi pengolahan data seperti MYOB dan Spreadsheets.</p>
+                </div>
+            </div>
+        </section>
 
-// FEEDBACK
-const showFeedback = document.getElementById("showFeedback");
-const feedbackOverlay = document.getElementById("feedbackOverlay");
-const closeFeedback = document.getElementById("closeFeedback");
-const mainContent = document.getElementById("mainContent");
-showFeedback.addEventListener("click", ()=>{feedbackOverlay.classList.add("active"); mainContent.classList.add("blur");});
-closeFeedback.addEventListener("click", ()=>{feedbackOverlay.classList.remove("active"); mainContent.classList.remove("blur");});
-document.getElementById("sendFeedback").addEventListener("click", function(){
-  let msg = document.getElementById("feedbackInput").value.trim();
-  if(msg===""){alert("Tolong tulis saran & kritik terlebih dahulu!");return;}
-  let waNumber = "8562057060337"; 
-  window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, "_blank");
-});
+        <section id="contact" class="reveal">
+            <h2 class="title">Contact</h2>
+            <div class="glass social">
+                <a href="https://linkedin.com/in/username_kamu" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://instagram.com/username_kamu" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://github.com/username_kamu" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://wa.me/628xxxxxxxxxx" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.tiktok.com/@username_kamu" target="_blank"><i class="fab fa-tiktok"></i></a>
+            </div>
+        </section>
 
-// PARTICLE EFFECT
-const canvas = document.getElementById("particleCanvas");
-const ctx = canvas.getContext("2d");
-let particlesArray;
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-window.addEventListener('resize',()=>{canvas.width = window.innerWidth;canvas.height = window.innerHeight;initParticles();});
+        <footer>
+            &copy; 2026 Naufal Portfolio
+        </footer>
 
-class Particle{constructor(){this.x=Math.random()*canvas.width; this.y=Math.random()*canvas.height; this.size=Math.random()*3+1; this.speedX=Math.random()*1-0.5; this.speedY=Math.random()*1-0.5; this.color='rgba(255,255,255,'+Math.random()+')';}update(){this.x += this.speedX; this.y += this.speedY; if(this.x>canvas.width) this.x=0; if(this.x<0) this.x=canvas.width; if(this.y>canvas.height) this.y=0; if(this.y<0) this.y=canvas.height;}draw(){ctx.fillStyle=this.color; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill();}}
-function initParticles(){particlesArray=[];for(let i=0;i<120;i++){particlesArray.push(new Particle());}}
-function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p=>{p.update(); p.draw();}); requestAnimationFrame(animateParticles);}
-initParticles(); animateParticles();
-</script>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById("navLinks").classList.toggle("active");
+        }
+
+        function reveal() {
+            let reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(i => {
+                let windowHeight = window.innerHeight;
+                let elementTop = i.getBoundingClientRect().top;
+                
+                if (elementTop < windowHeight - 20) {
+                    i.classList.add("active");
+                }
+            });
+        }
+        
+        window.addEventListener("scroll", reveal);
+
+        function start() {
+            document.getElementById("intro-content").style.display = "none";
+            document.getElementById("loader").style.display = "block";
+
+            setTimeout(() => {
+                document.getElementById("intro").style.opacity = "0";
+                
+                setTimeout(() => {
+                    document.getElementById("intro").style.display = "none";
+                    document.getElementById("main").style.display = "block";
+                    reveal(); 
+                }, 1000); 
+                
+            }, 2000); 
+        }
+
+        let c = document.getElementById("canvas");
+        let ctx = c.getContext("2d");
+        
+        c.width = innerWidth;
+        c.height = innerHeight;
+        
+        let particles = [];
+        
+        for (let i = 0; i < 120; i++) {
+            particles.push({
+                x: Math.random() * c.width,
+                y: Math.random() * c.height,
+                dx: (Math.random() - 0.5),
+                dy: (Math.random() - 0.5),
+                r: 2
+            });
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, c.width, c.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = "#00ffff";
+                ctx.fill();
+                
+                p.x += p.dx;
+                p.y += p.dy;
+                
+                if (p.x < 0 || p.x > c.width) p.dx *= -1;
+                if (p.y < 0 || p.y > c.height) p.dy *= -1;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        let text = "Accountant | Financial Analyst | Tax Specialist";
+        let typingIndex = 0; 
+        
+        function typing() {
+            if (typingIndex < text.length) {
+                document.querySelector(".typing").innerHTML += text[typingIndex];
+                typingIndex++;
+                setTimeout(typing, 100);
+            }
+        }
+        typing();
+    </script>
 </body>
 </html>
